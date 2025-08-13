@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pagi Sore – Redesign Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #ffffff;
+      --text: #1f1a17; /* cokelat tua */
+      --muted: #6e5a50;
+      --accent: #c0392b; /* merah padang */
+      --accent-2: #f39c12; /* oranye */
+      --soft: #f6f3f2; /* latar lembut */
+      --card: #ffffff;
+      --ring: rgba(192, 57, 43, .25);
+      --shadow: 0 8px 24px rgba(0,0,0,.08);
+      --radius: 18px;
+      --radius-lg: 26px;
+      --container: 1180px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    img{max-width:100%; display:block}
+    a{color:inherit; text-decoration:none}
+    .container{max-width: var(--container); margin: 0 auto; padding: 0 20px}
+    header.site{
+      position: sticky; top:0; z-index: 40;
+      backdrop-filter: saturate(180%) blur(12px);
+      background: color-mix(in srgb, var(--bg) 70%, transparent);
+      border-bottom: 1px solid #eee;
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 0}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800}
+    .brand .logo{
+      width:40px; height:40px; border-radius:12px; background: var(--text);
+      display:grid; place-content:center; color:#fff; font-weight:800; letter-spacing:1px;
+      box-shadow: var(--shadow);
+    }
+    .nav a{font-weight:600; opacity:.9}
+    .nav .links{display:flex; gap:18px; align-items:center}
+    .btn{display:inline-block; padding:12px 18px; border-radius: 999px; font-weight:700; border:2px solid transparent}
+    .btn-primary{background: var(--accent); color:#fff}
+    .btn-primary:focus-visible{outline:none; box-shadow:0 0 0 6px var(--ring)}
+    .btn-secondary{background: var(--accent-2); color:#1a120e}
+
+    /* HERO */
+    .hero{position:relative; isolation:isolate}
+    .hero-media{
+      position:relative; height: 64vh; min-height: 520px; max-height: 760px; overflow:hidden; border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+    .hero-media img{width:100%; height:100%; object-fit: cover; filter: saturate(105%) contrast(105%)}
+    .hero-overlay{
+      position:absolute; inset:0; background:linear-gradient(180deg, rgba(12,8,6,.55) 0%, rgba(12,8,6,.55) 50%, rgba(12,8,6,.25) 100%);
+    }
+    .hero-content{
+      position:absolute; inset:0; display:grid; place-items:center; text-align:center; color:#fff; padding: 0 18px;
+    }
+    .eyebrow{font-size:.95rem; letter-spacing:.12em; text-transform:uppercase; opacity:.9}
+    h1{
+      font-family: "Playfair Display", serif; font-size: clamp(36px, 6vw, 64px); line-height: 1.08; margin: 10px 0 16px; font-weight:800;
+      text-shadow: 0 6px 24px rgba(0,0,0,.35);
+    }
+    .tagline{font-size: clamp(16px, 2.3vw, 22px); opacity:.95; max-width: 900px; margin: 0 auto 26px}
+    .hero-cta{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+
+    section{padding: 64px 0}
+    section.alt{background: var(--soft)}
+    h2{font-family: "Playfair Display", serif; font-size: clamp(28px, 4.4vw, 40px); margin: 0 0 14px}
+    .lead{font-size: 18px; color: var(--muted)}
+
+    /* ABOUT */
+    .about{display:grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items:center}
+    .about .chip{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; background:#fff; border-radius:999px; border:1px solid #eee}
+    .about .card{background: var(--card); padding: 22px; border-radius: var(--radius); box-shadow: var(--shadow)}
+
+    /* MENU GRID */
+    .menu-grid{display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 24px}
+    .item{background: var(--card); border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow); display:flex; flex-direction:column}
+    .item img{height: 220px; object-fit: cover}
+    .item .meta{padding: 16px 16px 18px}
+    .item h3{margin: 0 0 6px; font-size: 20px}
+    .price{font-weight:800}
+    .item .actions{margin-top: 10px; display:flex; gap:10px}
+
+    /* LOCATION */
+    .loc{
+      display:grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items:stretch
+    }
+    .info{background:#fff; padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); display:flex; gap:16px}
+    .info .icon{width:42px; height:42px; border-radius:12px; background: var(--soft); display:grid; place-content:center}
+
+    /* PROMO SLIDER (CSS only) */
+    .slider{position:relative; border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow)}
+    .slides{display:flex; width:300%; transition: transform .6s ease}
+    input[name="s"]{display:none}
+    #s1:checked ~ .slides{transform: translateX(0%)}
+    #s2:checked ~ .slides{transform: translateX(-33.3333%)}
+    #s3:checked ~ .slides{transform: translateX(-66.6666%)}
+    .slide{width:100%; flex: 0 0 33.3333%}
+    .slider-controls{position:absolute; inset:auto 0 12px 0; display:flex; gap:10px; justify-content:center}
+    .dot{width:12px; height:12px; border-radius:999px; background:#fff; opacity:.6; outline:2px solid rgba(0,0,0,.18)}
+    #s1:checked ~ .slider-controls label[for="s1"],
+    #s2:checked ~ .slider-controls label[for="s2"],
+    #s3:checked ~ .slider-controls label[for="s3"]{opacity:1}
+
+    /* FOOTER */
+    footer{padding: 40px 0; background:#10100f; color:#ddd; border-top-left-radius: var(--radius-lg); border-top-right-radius: var(--radius-lg)}
+    .foot{display:flex; gap:24px; align-items:center; justify-content:space-between; flex-wrap:wrap}
+    .social{display:flex; gap:12px}
+    .badge{display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:999px; background:#1d1c1a}
+
+    /* RESPONSIVE */
+    @media (max-width: 960px){
+      .about{grid-template-columns: 1fr}
+      .menu-grid{grid-template-columns: 1fr 1fr}
+      .loc{grid-template-columns: 1fr}
+    }
+    @media (max-width: 640px){
+      .menu-grid{grid-template-columns: 1fr}
+      .hero-media{height: 58vh; min-height: 460px}
+    }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">PS</div>
+        <div>
+          <div style="font-weight:800; line-height:1">Pagi Sore</div>
+          <small style="opacity:.7">Sejak 1973</small>
+        </div>
+      </div>
+      <nav class="links" aria-label="Utama">
+        <a href="#menu">Menu</a>
+        <a href="#tentang">Tentang</a>
+        <a href="#lokasi">Lokasi</a>
+        <a href="#promo">Promo</a>
+        <a class="btn btn-primary" href="#pesan">Pesan Sekarang</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" aria-label="Pembuka">
+      <div class="hero-media">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2400&auto=format&fit=crop" alt="Meja makan dengan hidangan Minang yang menggugah selera" />
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="container">
+            <div class="eyebrow">Masakan Padang Otentik</div>
+            <h1>Pagi Sore – Autentik Minangkabau, Rasa Legendaris</h1>
+            <p class="tagline">Rasakan rendang, ayam pop, dan gulai terbaik dengan pengalaman modern. Sejak 1973 kami menjaga cita rasa Minang untuk keluarga Indonesia.</p>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="#menu">Lihat Menu</a>
+              <a class="btn btn-secondary" href="#pesan">Pesan Sekarang</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TENTANG -->
+    <section id="tentang">
+      <div class="container about">
+        <div>
+          <span class="chip" aria-label="Penghargaan">🏆 50 Tahun Lebih</span>
+          <h2>Tentang Kami</h2>
+          <p class="lead">Berawal dari dapur keluarga di Padang, Pagi Sore hadir membawa warisan rasa Minang yang kaya rempah dan teknik memasak yang telaten.</p>
+          <div class="card">
+            <ul>
+              <li><strong>Bahan segar</strong> dipilih harian, tanpa kompromi.</li>
+              <li><strong>Bumbu turun-temurun</strong> dari generasi ke generasi.</li>
+              <li><strong>Pelayanan ramah</strong> dan suasana hangat untuk keluarga.</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <img src="https://images.unsplash.com/photo-1514517220031-65b2b047ff56?q=80&w=1600&auto=format&fit=crop" alt="Chef menyiapkan rendang di dapur" style="border-radius: var(--radius); box-shadow: var(--shadow)">
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU GRID -->
+    <section id="menu" class="alt" aria-label="Menu Spesial">
+      <div class="container">
+        <h2>Menu Spesial</h2>
+        <p class="lead">Pilihan favorit pelanggan – porsi pas, rasa mantap.</p>
+        <div class="menu-grid">
+          <article class="item" aria-label="Rendang Sapi">
+            <img src="https://images.unsplash.com/photo-1604908554027-9448d7d97f67?q=80&w=1600&auto=format&fit=crop" alt="Rendang Sapi" />
+            <div class="meta">
+              <h3>Rendang Sapi</h3>
+              <div class="price">Rp45.000</div>
+              <p>Dimasak lama hingga bumbu meresap pekat.</p>
+              <div class="actions">
+                <a class="btn btn-primary" href="#pesan">Pesan</a>
+                <a class="btn btn-secondary" href="#">Detail</a>
+              </div>
+            </div>
+          </article>
+          <article class="item" aria-label="Ayam Pop">
+            <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1600&auto=format&fit=crop" alt="Ayam Pop" />
+            <div class="meta">
+              <h3>Ayam Pop</h3>
+              <div class="price">Rp35.000</div>
+              <p>Tekstur lembut, disajikan dengan sambal spesial.</p>
+              <div class="actions">
+                <a class="btn btn-primary" href="#pesan">Pesan</a>
+                <a class="btn btn-secondary" href="#">Detail</a>
+              </div>
+            </div>
+          </article>
+          <article class="item" aria-label="Gulai Nangka">
+            <img src="https://images.unsplash.com/photo-1611042553484-d61f84d22784?q=80&w=1600&auto=format&fit=crop" alt="Gulai Nangka" />
+            <div class="meta">
+              <h3>Gulai Nangka</h3>
+              <div class="price">Rp20.000</div>
+              <p>Kuah santan gurih dengan aroma rempah menggoda.</p>
+              <div class="actions">
+                <a class="btn btn-primary" href="#pesan">Pesan</a>
+                <a class="btn btn-secondary" href="#">Detail</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOKASI & JAM -->
+    <section id="lokasi" aria-label="Lokasi dan Jam Buka">
+      <div class="container loc">
+        <div class="info">
+          <div class="icon" aria-hidden="true">📍</div>
+          <div>
+            <h3 style="margin:0 0 6px">Alamat</h3>
+            <p>Jl. Contoh No. 123, Padang, Sumatera Barat</p>
+            <a class="btn btn-secondary" href="#">Buka di Maps</a>
+          </div>
+        </div>
+        <div class="info">
+          <div class="icon" aria-hidden="true">⏰</div>
+          <div>
+            <h3 style="margin:0 0 6px">Jam Operasional</h3>
+            <p>Senin–Minggu • 10.00 – 22.00 WIB</p>
+            <span class="badge">Delivery & Takeaway Tersedia</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMO / BERITA -->
+    <section id="promo" class="alt" aria-label="Promo Spesial">
+      <div class="container">
+        <h2>Promo Spesial Minggu Ini</h2>
+        <p class="lead">Nikmati penawaran hemat untuk keluarga.</p>
+
+        <div class="slider">
+          <input type="radio" name="s" id="s1" checked>
+          <input type="radio" name="s" id="s2">
+          <input type="radio" name="s" id="s3">
+
+          <div class="slides">
+            <div class="slide">
+              <img src="https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=2400&auto=format&fit=crop" alt="Promo paket rendang" />
+            </div>
+            <div class="slide">
+              <img src="https://images.unsplash.com/photo-1601050690119-eccbdc006ba8?q=80&w=2400&auto=format&fit=crop" alt="Diskon keluarga" />
+            </div>
+            <div class="slide">
+              <img src="https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?q=80&w=2400&auto=format&fit=crop" alt="Minuman gratis" />
+            </div>
+          </div>
+
+          <div class="slider-controls" aria-label="Navigasi slider">
+            <label class="dot" for="s1" title="Slide 1"></label>
+            <label class="dot" for="s2" title="Slide 2"></label>
+            <label class="dot" for="s3" title="Slide 3"></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PESAN CTA -->
+    <section id="pesan" aria-label="Ajak Pesan">
+      <div class="container" style="text-align:center">
+        <h2>Siap Santap?</h2>
+        <p class="lead">Klik tombol di bawah untuk memesan rendang dan favorit lainnya.</p>
+        <div class="hero-cta" style="justify-content:center">
+          <a class="btn btn-primary" href="#">Pesan via WhatsApp</a>
+          <a class="btn btn-secondary" href="#">Pesan via GoFood</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container foot">
+      <div class="brand" style="color:#fff">
+        <div class="logo" aria-hidden="true" style="background:#fff; color:#111">PS</div>
+        <div>
+          <div style="font-weight:800; line-height:1">Pagi Sore</div>
+          <small style="opacity:.7">Cita rasa Minang</small>
+        </div>
+      </div>
+      <div class="social">
+        <a class="badge" href="#" aria-label="Instagram">📸 Instagram</a>
+        <a class="badge" href="#" aria-label="WhatsApp">💬 WhatsApp</a>
+        <a class="badge" href="#" aria-label="Email">✉️ Email</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
